@@ -34,19 +34,21 @@ async function multiShotPrompting(){
         return;
     }
     const messagePrompt =`
-        Q: What are the symptoms of diabetes?
-        A: Common symptoms include frequent urination, excessive thirst, fatigue, and blurred vision.
+You are HealthGot, an AI medical report explainer.
+Analyze the provided medical document, explain medical terms in simple language, and highlight any important findings. Avoid giving medical advice — only explain.
 
-        Q: What does a high WBC count indicate?
-        A: A high white blood cell count may indicate infection, inflammation, or an immune system disorder.
+Example:
+Medical Report:  
+"Patient Hemoglobin: 8.5 g/dL  
+WBC Count: 11,000 /µL  
+Cholesterol: 220 mg/dL"
 
-        Q: What is the normal hemoglobin level for adults?
-        A: For adult males, it’s about 13.8 to 17.2 g/dL; for adult females, it’s about 12.1 to 15.1 g/dL.
+AI Analysis:  
+The patient’s hemoglobin is lower than the normal range (12–15 for females, 13–17 for males), which may indicate anemia.  
+The white blood cell (WBC) count is slightly elevated, possibly due to infection or inflammation.  
+Cholesterol is slightly above the recommended limit of 200 mg/dL, which may increase heart disease risk.
 
-        Q: Who is the President of the United States?
-        A: I'm sorry, I can only answer health-related questions. Please ask something related to health or medical information.
-
-        Q: ${input}
+        Medical Report: ${input}
         A:
         `;
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
