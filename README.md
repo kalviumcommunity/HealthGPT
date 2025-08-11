@@ -1,58 +1,57 @@
-# 🩺 HealthGPT
+🩺 HealthGPT
+HealthGPT is a personal AI-powered medical assistant that helps users understand their medical reports with ease. By uploading a PDF of a medical test result, users can receive simplified explanations, identify abnormalities, and learn about potential health risks—all in real-time.
 
-**HealthGPT** is a personal AI-powered medical assistant that helps users understand their medical reports with ease. By uploading a PDF of a medical test result, users can receive simplified explanations, identify abnormalities, and learn about potential health risks—all in real-time.
+✨ Features
+📄 Upload Medical Reports (PDF)
 
----
+Upload lab reports or diagnostic test results.
 
-## ✨ Features
+🔍 Intelligent Extraction
 
-* **📄 Upload Medical Reports (PDF)**
+Automatically extracts values like Hemoglobin, WBC count, Glucose, etc.
 
-  * Upload lab reports or diagnostic test results.
+🧠 AI-Powered Explanations (RAG)
 
-* **🔍 Intelligent Extraction**
+Uses Retrieval-Augmented Generation to explain what each test means and what the values indicate.
 
-  * Automatically extracts values like Hemoglobin, WBC count, Glucose, etc.
+🪰 Healthcare Advisor Mode
 
-* **🧠 AI-Powered Explanations (RAG)**
+Interacts like a virtual doctor to provide calm, empathetic, and medically sound explanations.
 
-  * Uses Retrieval-Augmented Generation to explain what each test means and what the values indicate.
+💬 Advanced Prompting (LLM Control)
 
-* **🪰 Healthcare Advisor Mode**
+Ensures the AI follows a medically focused behavior by giving it examples and rejecting unrelated questions.
 
-  * Interacts like a virtual doctor to provide calm, empathetic, and medically sound explanations.
+🗣️ Voice Input/Output (Optional)
 
-* **💬 Multi-Shot Prompting (LLM Control)**
+Adds accessibility by allowing spoken queries and audio responses.
 
-  * Ensures the AI follows a medically focused behavior by giving multiple Q\&A examples and rejecting unrelated questions (e.g., politics, celebrities).
+⚡ Fast & Scalable Backend
 
-* **🗣️ Voice Input/Output (Optional)**
+Built using asynchronous FastAPI architecture to ensure rapid response times.
 
-  * Adds accessibility by allowing spoken queries and audio responses.
+💡 Example Use Case
+User Uploads: A blood test report in PDF format
+HealthGPT Responds:
+"Your Hemoglobin is 9.5 g/dL, which is below the normal range for adult males. This may indicate iron deficiency anemia. It is advisable to consult a healthcare provider."
 
-* **⚡ Fast & Scalable Backend**
+🧠 Prompt Engineering for LLM Control
+To improve the accuracy and safety of HealthGPT, we have implemented several prompt engineering techniques using Google Gemini’s API. This ensures HealthGPT stays strictly within the medical domain.
 
-  * Built using asynchronous FastAPI architecture to ensure rapid response times.
+One-Shot Prompting (Latest Implementation)
+We have implemented one-shot prompting, a highly efficient technique that provides the model with just a single, high-quality example to guide its behavior. This steers the model's response style and domain focus without the overhead of multiple examples, making it fast and effective.
 
----
+✅ Example One-Shot Prompt:
+Q: My report says Triglycerides are 210 mg/dL. Is this normal?
+A: A triglyceride level of 210 mg/dL is considered high. The desirable range is typically below 150 mg/dL. High triglycerides can increase the risk of heart disease.
 
-## 💡 Example Use Case
+Q: <user question>
+A:
 
-> **User Uploads**: A blood test report in PDF format
-> **HealthGPT Responds**:
-> "Your Hemoglobin is 9.5 g/dL, which is below the normal range for adult males. This may indicate iron deficiency anemia. It is advisable to consult a healthcare provider."
+Multi-Shot (Few-Shot) Prompting
+Initially, the model was guided with multiple medical Q&A examples and one or more examples where it politely refuses to answer unrelated questions (like politics or movies). This technique is also highly effective for controlling model behavior.
 
----
-
-## 🧠 Multi-Shot Prompting (LLM Control)
-
-To improve the accuracy and safety of HealthGPT, we implemented **multi-shot prompting** using Google Gemini’s API.
-
-The model is guided with **multiple medical Q\&A examples** and one or more examples where it politely refuses to answer unrelated questions (like politics or movies).
-
-### ✅ Example Few-Shot Prompt:
-
-```
+✅ Example Few-Shot Prompt:
 Q: What are the symptoms of diabetes?
 A: Common symptoms include frequent urination, excessive thirst, fatigue, and blurred vision.
 
@@ -64,57 +63,39 @@ A: I'm sorry, I can only answer health-related questions. Please ask something m
 
 Q: <user question>
 A:
-```
 
-This technique improves model control and ensures HealthGPT stays strictly within the **medical domain**.
+🧰 Tech Stack
+Frontend: React (Coming Soon)
 
----
+Backend: FastAPI + AsyncIO + HTTPX
 
-## 🧰 Tech Stack
+AI: LLM (e.g., Groq LLaMA 3, Gemini) with RAG pipeline
 
-* **Frontend**: React (Coming Soon)
-* **Backend**: FastAPI + AsyncIO + HTTPX
-* **AI**: LLM (e.g., Groq LLaMA 3, Gemini) with RAG pipeline
-* **PDF Parsing**: PyMuPDF / pdfplumber
-* **Vector DB**: Pinecone / FAISS
-* **Deployment**: Docker, Hugging Face Spaces (optional)
+PDF Parsing: PyMuPDF / pdfplumber
 
----
+Vector DB: Pinecone / FAISS
 
-## 🔐 Security & Privacy
+Deployment: Docker, Hugging Face Spaces (optional)
 
-* All data is processed securely.
-* No personal health data is stored long-term.
-* Compliant with privacy best practices.
+🔐 Security & Privacy
+All data is processed securely.
 
----
+No personal health data is stored long-term.
 
-## 🛠️ Getting Started (Basic Setup)
+Compliant with privacy best practices.
 
-```bash
+🛠️ Getting Started (Basic Setup)
 # Clone the repo
 git clone https://github.com/kalviumcommunity/HealthGPT.git
 cd HealthGPT
-```
 
----
-
-## 🤝 Contributing
-
+🤝 Contributing
 We welcome contributions! Whether it's improving the UI, optimizing the backend, or suggesting medical knowledge integrations, feel free to open a pull request or issue.
 
----
-
-## 📄 License
-
+📄 License
 This project is licensed under the MIT License.
 
----
+👨‍⚕️ Disclaimer
+HealthGPT is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for any medical condition or concern.
 
-## 👨‍⚕️ Disclaimer
-
-HealthGPT is **not a substitute for professional medical advice, diagnosis, or treatment**. Always consult a qualified healthcare provider for any medical condition or concern.
-
----
-
-## 🙌 Built with passion at Kalvium ❤️
+🙌 Built with passion at Kalvium ❤️
