@@ -125,6 +125,46 @@ The code above concatenates all prior messages into `systemInstructions`, so the
 
 ---
 
+# Structured Output Function Example
+
+You can add the following function to implement **structured output** in your project. This ensures the AI response is returned in a predictable JSON format.
+
+```javascript
+async function structuredOutput() {
+    const inputEl = document.getElementById('input');
+    const input = inputEl.value.trim();
+
+    if (!input) return alert('Please enter your query');
+
+    const prompt = `You are to respond strictly in JSON format with keys: 'answer' (string), 'confidence' (0-1 float). Question: ${input}`;
+
+    try {
+        const response = await fetch('https://api.your-llm.com/v1/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${YOUR_API_KEY}`
+            },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await response.json();
+        console.log("Structured Output:", data);
+    } catch (error) {
+        console.error('Error fetching structured output:', error);
+    }
+}
+```
+
+**Usage in HTML:**
+
+```html
+<input id="input" type="text" placeholder="Ask your question" />
+<button onclick="structuredOutput()">Submit</button>
+```
+
+
+
 ## 🤝 Contributing
 
 We welcome contributions! Whether it's improving the UI, optimizing the backend, or suggesting medical knowledge integrations, feel free to open a pull request or issue.
