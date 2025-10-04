@@ -1,14 +1,16 @@
-🩺 **HealthGPT**
+# 🩺 **HealthGPT**
+
 An AI-powered medical assistant that helps you understand complex health reports with ease. Upload a PDF of your lab results, and get a simplified, easy-to-read summary in seconds.
 
 ---
 
-✨ **The Problem It Solves**
+## ✨ **The Problem It Solves**
+
 Medical reports are often filled with complex jargon, abbreviations, and data points that are difficult for the average person to understand. This can cause anxiety and confusion. HealthGPT bridges this gap by using the power of Generative AI to translate your reports into simple, actionable insights, empowering you to have more informed conversations with your healthcare provider.
 
 ---
 
-🚀 **Features**
+## 🚀 **Features**
 
 * 📄 **PDF Report Upload:** Securely upload any text-based medical report in PDF format.
 * 🧠 **Intelligent Text Extraction:** Automatically parses the document to extract key metrics and values.
@@ -18,7 +20,7 @@ Medical reports are often filled with complex jargon, abbreviations, and data po
 
 ---
 
-🛠️ **Tech Stack**
+## 🛠️ **Tech Stack**
 
 | Component   | Technology                 |
 | ----------- | -------------------------- |
@@ -29,7 +31,7 @@ Medical reports are often filled with complex jargon, abbreviations, and data po
 
 ---
 
-⚙️ **Getting Started**
+## ⚙️ **Getting Started**
 Follow these instructions to get a local copy up and running.
 
 ### **Prerequisites**
