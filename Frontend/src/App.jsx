@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './styles/App.css';
+import FileUpload from './components/FileUpload';
+import Loader from './components/Loader';
+import ReportDisplay from './components/ReportDisplay';
+import { analyzeReport } from './api/apiClient';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [analysis, setAnalysis] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleFileUpload = async (file) => {
+    setLoading(true);
+    setAnalysis(null);
+    setError('');
+
+    try {
+      const response = await analyzeReport(file);
+      setAnalysis(response.data);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'An unexpected error occurred.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <header className="header">
+        <h1>HealthGPT</h1>
+        <p>Your personal AI medical assistant. Understand your reports with ease.</p>
+      </header>
+
+      <main className="main-content">
+        <FileUpload onFileUpload={handleFileUpload} loading={loading} />
+        {loading && <Loader />}
+        {error && <p className="error-message">{error}</p>}
+        {analysis && <ReportDisplay analysis={analysis} />}
+      </main>
+      
+      <footer className='footer'>
+        <p>Disclaimer: HealthGPT is not a substitute for professional medical advice. Always consult a qualified healthcare provider.</p>
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;
