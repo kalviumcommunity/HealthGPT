@@ -1,186 +1,98 @@
-# 🩺 HealthGPT
-
-**HealthGPT** is a personal AI-powered medical assistant that helps users understand their medical reports with ease. By uploading a PDF of a medical test result, users can receive simplified explanations, identify abnormalities, and learn about potential health risks—all in real-time.
-
----
-
-## ✨ Features
-
-* **📄 Upload Medical Reports (PDF)**
-
-  * Upload lab reports or diagnostic test results.
-
-* **🔍 Intelligent Extraction**
-
-  * Automatically extracts values like Hemoglobin, WBC count, Glucose, etc.
-
-* **🧠 AI-Powered Explanations (RAG)**
-
-  * Uses Retrieval-Augmented Generation to explain what each test means and what the values indicate.
-
-* **🪰 Healthcare Advisor Mode**
-
-  * Interacts like a virtual doctor to provide calm, empathetic, and medically sound explanations.
-
-* **💬 Advanced Prompting (LLM Control)**
-
-  * Ensures the AI follows a medically focused behavior by giving it examples and rejecting unrelated questions.
-
-* **🌀 Dynamic Prompting (NEW)**
-
-  * The prompt is built at runtime using the uploaded PDF data + conversation history so answers stay context-aware and tied to the report.
-
-* **🗣️ Voice Input/Output (Optional)**
-
-  * Adds accessibility by allowing spoken queries and audio responses.
-
-* **⚡ Fast & Scalable Backend**
-
-  * Built using asynchronous FastAPI architecture to ensure rapid response times.
+🩺 **HealthGPT**
+An AI-powered medical assistant that helps you understand complex health reports with ease. Upload a PDF of your lab results, and get a simplified, easy-to-read summary in seconds.
 
 ---
 
-## 💡 Example Use Case
-
-**User Uploads:** A blood test report in PDF format
-
-**HealthGPT Responds:**
-
-> "Your Hemoglobin is 9.5 g/dL, which is below the normal range for adult males. This may indicate iron deficiency anemia. It is advisable to consult a healthcare provider."
-
-Later the user can ask follow-up questions and HealthGPT will use the same uploaded report and prior conversation to answer.
+✨ **The Problem It Solves**
+Medical reports are often filled with complex jargon, abbreviations, and data points that are difficult for the average person to understand. This can cause anxiety and confusion. HealthGPT bridges this gap by using the power of Generative AI to translate your reports into simple, actionable insights, empowering you to have more informed conversations with your healthcare provider.
 
 ---
 
-## 🧠 Prompt Engineering for LLM Control
+🚀 **Features**
 
-To improve the accuracy and safety of HealthGPT, we implemented several prompt engineering techniques using Google Gemini’s API. This ensures HealthGPT stays strictly within the medical domain.
+* 📄 **PDF Report Upload:** Securely upload any text-based medical report in PDF format.
+* 🧠 **Intelligent Text Extraction:** Automatically parses the document to extract key metrics and values.
+* 🤖 **AI-Powered Summaries:** Leverages Google's Gemini models to provide clear, simple explanations of what your results mean.
+* ⚡ **Resilient Backend:** Built with a robust error-handling and retry mechanism to manage API rate limits and temporary service issues gracefully.
+* 🔒 **Secure & Private:** Your data is processed in memory and is not stored long-term. All processing is done securely.
 
-### One-Shot Prompting (Latest Implementation)
+---
 
-One-shot prompting provides the model with a single high-quality example to steer its responses efficiently.
+🛠️ **Tech Stack**
 
-**Example One-Shot Prompt:**
+| Component   | Technology                 |
+| ----------- | -------------------------- |
+| Backend     | Python, FastAPI            |
+| Frontend    | React, Axios               |
+| AI Model    | Google Gemini (gemini-pro) |
+| PDF Parsing | PyPDF2                     |
 
-```
-Q: My report says Triglycerides are 210 mg/dL. Is this normal?
-A: A triglyceride level of 210 mg/dL is considered high. The desirable range is typically below 150 mg/dL. High triglycerides can increase the risk of heart disease.
+---
 
-Q: <user question>
-A:
-```
+⚙️ **Getting Started**
+Follow these instructions to get a local copy up and running.
 
-### Multi-Shot (Few-Shot) Prompting
+### **Prerequisites**
 
-Multi-shot prompting feeds the model multiple examples (including refusal examples) to better control behavior.
+* Python 3.8+
+* Node.js and npm
 
-**Example Few-Shot Prompt:**
+### **Configuration**
 
-```
-Q: What are the symptoms of diabetes?
-A: Common symptoms include frequent urination, excessive thirst, fatigue, and blurred vision.
+**Get a Google Gemini API Key:**
 
-Q: What does a high WBC count indicate?
-A: A high white blood cell count may indicate infection, inflammation, or an immune system disorder.
+1. Go to [Google AI Studio](https://aistudio.google.com/).
+2. Click **"Get API key"** and create a new key.
 
-Q: Who is the President of the United States?
-A: I'm sorry, I can only answer health-related questions. Please ask something medical.
+**Set Up Environment Variables:**
 
-Q: <user question>
-A:
+1. Navigate to the backend directory.
+2. Create a file named `.env`.
+3. Add your API key to the file like this:
+
+   ```bash
+   GOOGLE_API_KEY="YOUR_NEW_AI_STUDIO_API_KEY"
+   ```
+
+---
+
+### **Installation & Running**
+
+#### 1. Backend Server
+
+```bash
+# Navigate to the backend directory
+cd backend
+
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the server
+uvicorn app.main:app --reload
 ```
 
-### Dynamic Prompting (Added Feature)
+Backend runs at: **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
-Dynamic prompting means the prompt is assembled at runtime using:
+#### 2. Frontend Application
 
-* Extracted text & metadata from the uploaded PDF (or its retrieved chunks),
-* Conversation history (previous user & AI turns), and
-* Any additional context (patient age, report date, clinician notes).
+```bash
+# Open a new terminal and navigate to the frontend directory
+cd frontend
 
-This lets HealthGPT:
+# Install dependencies
+npm install
 
-* Answer **only** from the uploaded report when required,
-* Preserve context across follow-ups,
-* Reduce hallucinations by including retrieved evidence from the vector DB.
-
-**Example: appending conversation history into the prompt**
-
-```javascript
-// conversationHistory is an array of message objects
-conversationHistory.forEach((msg, index) => {
-    systemInstructions += `\n${msg.role === "user" ? "User" : "AI"}: ${msg.text}`;
-});
+# Run the React app
+npm start
 ```
 
-The code above concatenates all prior messages into `systemInstructions`, so the LLM sees the full session context along with the extracted PDF text.
+Frontend runs at: **[http://localhost:5173](http://localhost:3000)** (or a similar port)
 
 ---
 
-## 🔐 Security & Privacy
-
-* All data is processed securely.
-* No personal health data is stored long-term unless explicitly opted-in.
-* Compliant with privacy best practices.
-
----
-
-# Structured Output Function Example
-
-You can add the following function to implement **structured output** in your project. This ensures the AI response is returned in a predictable JSON format.
-
-```javascript
-async function structuredOutput() {
-    const inputEl = document.getElementById('input');
-    const input = inputEl.value.trim();
-
-    if (!input) return alert('Please enter your query');
-
-    const prompt = `You are to respond strictly in JSON format with keys: 'answer' (string), 'confidence' (0-1 float). Question: ${input}`;
-
-    try {
-        const response = await fetch('https://api.your-llm.com/v1/generate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${YOUR_API_KEY}`
-            },
-            body: JSON.stringify({ prompt })
-        });
-
-        const data = await response.json();
-        console.log("Structured Output:", data);
-    } catch (error) {
-        console.error('Error fetching structured output:', error);
-    }
-}
-```
-
-**Usage in HTML:**
-
-```html
-<input id="input" type="text" placeholder="Ask your question" />
-<button onclick="structuredOutput()">Submit</button>
-```
-
-
-
-## 🤝 Contributing
-
-We welcome contributions! Whether it's improving the UI, optimizing the backend, or suggesting medical knowledge integrations, feel free to open a pull request or issue.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## 👨‍⚕️ Disclaimer
-
-HealthGPT is **not** a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for any medical condition or concern.
-
----
-
-## 🙌 Built with passion at Kalvium ❤️
+👨‍⚕️ **Disclaimer**
+HealthGPT is an informational tool and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider with any questions you may have regarding a medical condition.
