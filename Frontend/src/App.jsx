@@ -9,11 +9,13 @@ function App() {
   const [analysis, setAnalysis] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState('');
 
   const handleFileUpload = async (file) => {
     setLoading(true);
     setAnalysis(null);
     setError('');
+    setFileName(file.name);
 
     try {
       const response = await analyzeReport(file);
@@ -26,18 +28,32 @@ function App() {
     }
   };
 
+  const handleReset = () => {
+    setAnalysis(null);
+    setError('');
+    setFileName('');
+  };
+
   return (
     <div className="App">
       <header className="header">
-        <h1>HealthGPT</h1>
+        <h1>🩺 HealthGPT</h1>
         <p>Your personal AI medical assistant. Understand your reports with ease.</p>
       </header>
 
       <main className="main-content">
-        <FileUpload onFileUpload={handleFileUpload} loading={loading} />
+        {!analysis && !loading && (
+          <FileUpload onFileUpload={handleFileUpload} loading={loading} />
+        )}
         {loading && <Loader />}
         {error && <p className="error-message">{error}</p>}
-        {analysis && <ReportDisplay analysis={analysis} />}
+        {analysis && (
+          <ReportDisplay
+            analysis={analysis}
+            fileName={fileName}
+            onReset={handleReset}
+          />
+        )}
       </main>
       
       <footer className='footer'>
